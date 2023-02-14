@@ -1,12 +1,9 @@
 import { ProductModel } from "@/types/productTypes";
 import axios from "axios";
-import { stdout } from "process";
 
 export class ProductsApi {
 private url = 'http://localhost:3333/products/';
-/**
-   * Gets a list of breweries.
-   */
+
 async getProducts(): Promise<ProductModel[]> {
     // make the api call
     return await axios.get<ProductModel[]>(`${this.url}all`, {headers: {"Access-Control-Allow-Origin": "*"}})
