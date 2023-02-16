@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "@/styles/home";
 import {
@@ -12,12 +11,12 @@ import {
   Select,
 } from "@mui/material";
 import React from "react";
-import { useGetProducts } from "@/hooks/useGetProducts";
 import { ProductModel } from "@/types/productTypes";
 import ProductItem from "@/ui/home/components/ProductItem";
+import { useGetAllProductsQuery } from "./api/products";
 
 function Home() {
-  const { isLoading, data } = useGetProducts();
+  const { data: products, isLoading } = useGetAllProductsQuery();
   return (
     <Box
       sx={{
@@ -25,6 +24,10 @@ function Home() {
         flexDirection: "column",
       }}
     >
+      <Head>
+        <title>Panzer Store</title>
+        <meta property="og:title" content="Panzer Store" key="title" />
+      </Head>
       <Box className="filters">
         <FormControl sx={{ width: ["100%", "300px"], mr: 5 }}>
           <InputLabel id="categories-label">Categories</InputLabel>
@@ -77,7 +80,7 @@ function Home() {
       </Box>
       {!isLoading ? (
         <Box sx={styles.experiencesContainer}>
-          {data!.map((product: ProductModel) => {
+          {products!.map((product: ProductModel) => {
             return <ProductItem key={product.id} product={product} />;
           })}
         </Box>

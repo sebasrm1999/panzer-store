@@ -1,19 +1,19 @@
 import { ProductModel } from "@/types/productTypes";
-import axios from "axios";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export class ProductsApi {
-private url = 'http://localhost:3333/products/';
+// Define a service using a base URL and expected endpoints
+export const productApi = createApi({
+  reducerPath: "productApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3333/products/" }),
+  tagTypes: ["Products"],
+  endpoints: (builder) => ({
+    getAllProducts: builder.query<ProductModel[], void>({
+      query: () => "all",
+      providesTags: [{ type: "Products", id: "LIST" }],
+    }),
+  }),
+});
 
-async getProducts(): Promise<ProductModel[]> {
-    // make the api call
-    return await axios.get<ProductModel[]>(`${this.url}all`, {headers: {"Access-Control-Allow-Origin": "*"}})
-    .then(response => response.data)
-    .catch(error => {
-        console.log(error);
-        return [];
-    });
-  }
-}
-
-// Singleton instance of the API for convenience
-export const api = new ProductsApi();
+// Export hooks for usage in functional components, which are
+// auto-generated based on the defined endpoints
+export const { useGetAllProductsQuery } = productApi;
