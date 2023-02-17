@@ -14,6 +14,7 @@ import React from "react";
 import { ProductModel } from "@/types/productTypes";
 import ProductItem from "@/ui/home/components/ProductItem";
 import { useGetAllProductsQuery } from "./api/products";
+import Header from "@/ui/home/components/Header";
 
 function Home() {
   const { data: products, isLoading } = useGetAllProductsQuery();
@@ -28,6 +29,7 @@ function Home() {
         <title>Panzer Store</title>
         <meta property="og:title" content="Panzer Store" key="title" />
       </Head>
+      <Header />
       <Box className="filters">
         <FormControl sx={{ width: ["100%", "300px"], mr: 5 }}>
           <InputLabel id="categories-label">Categories</InputLabel>
