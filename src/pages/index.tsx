@@ -82,9 +82,9 @@ function Home() {
       </Box>
       {!isLoading ? (
         <Box sx={styles.experiencesContainer}>
-          {products!.map((product: ProductModel) => {
-            return <ProductItem key={product.id} product={product} />;
-          })}
+          {products!.map((product: ProductModel) => (
+            <ProductItem key={product.id} product={product} />
+          ))}
         </Box>
       ) : (
         <Box

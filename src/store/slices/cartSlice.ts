@@ -4,11 +4,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface CartState {
   products: CartProductModel[];
   total: number;
+  drawerWidth: number;
+  drawer: boolean;
 }
 
 const initialState: CartState = {
   products: [],
   total: 0,
+  drawerWidth: 400,
+  drawer: false,
 };
 
 export const cartSlice = createSlice({
@@ -36,10 +40,22 @@ export const cartSlice = createSlice({
       );
       state.products.splice(productIndex, 1);
     },
+    setDrawerWidth: (state, action: PayloadAction<number>) => {
+      state.drawerWidth = action.payload;
+    },
+    toggleDrawer: (state) => {
+      state.drawer = !state.drawer;
+    },
   },
 });
 
-export const { increment, decrement, addToCart, deleteFromCart } =
-  cartSlice.actions;
+export const {
+  increment,
+  decrement,
+  addToCart,
+  deleteFromCart,
+  setDrawerWidth,
+  toggleDrawer,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
