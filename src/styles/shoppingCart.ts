@@ -71,7 +71,7 @@ const checkoutButton: SxProps = {
 
 const emptyCartContainer: SxProps = {
   display: "flex",
-  height: `${window.innerHeight}px`,
+
   justifyContent: "center",
   alignItems: "center",
 };

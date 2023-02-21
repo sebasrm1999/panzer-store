@@ -1,5 +1,6 @@
 import styles from "@/styles/header";
 import { AppBar, Box, Grid, Toolbar } from "@mui/material";
+import Image from "next/image";
 import ShoppingCart from "./ShoppingCart";
 
 function Header() {
@@ -9,18 +10,19 @@ function Header() {
         flexGrow: 1,
       }}
     >
-      <AppBar position="fixed" sx={{ backgroundColor: "#fff" }}>
+      <AppBar sx={{ backgroundColor: "#fff" }}>
         <Toolbar>
-          <div className="container">
+          <Box sx={styles.toolbarContainer}>
             <Grid item>
-              <Box
-                className="logo"
-                component="img"
-                src="https://playeatlas.com/wp-content/themes/eatlas/assets/images/footer/logo-black-text.png"
-              ></Box>
+              <Image
+                width={150}
+                height={100}
+                src="https://static.vecteezy.com/system/resources/previews/007/266/170/original/military-tank-silhouette-icon-panzer-vehicle-force-pictogram-tank-army-black-symbol-armed-machine-weapon-icon-army-transportation-logo-defense-war-ammunition-isolated-illustration-vector.jpg"
+                alt="Logo"
+              />
             </Grid>
             <Grid item>
-              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <Box sx={styles.pagesContainer}>
                 {/*pages.map((page) => {
                       if (page === currentPage) {
                         return (
@@ -68,15 +70,16 @@ function Header() {
                     })*/}
               </Box>
             </Grid>
-            <Grid>
+            <Grid item>
               <Box>
                 <ShoppingCart />
               </Box>
             </Grid>
-          </div>
+          </Box>
         </Toolbar>
       </AppBar>
-      <Toolbar sx={{ mt: "30px" }} />
+      <Toolbar />
+      <Toolbar />
     </Box>
   );
 }

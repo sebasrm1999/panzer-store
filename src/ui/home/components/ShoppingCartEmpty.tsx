@@ -12,6 +12,7 @@ function ShoppingCartEmpty() {
         styles.emptyCartContainer,
         {
           width: `${drawerWidth}px`,
+          height: `${window.innerHeight}px`,
         },
       ]}
     >
