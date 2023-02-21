@@ -1,10 +1,14 @@
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import useAppDispatch from "@/hooks/useAppDispatch";
+import useAppSelector from "@/hooks/useAppSelector";
 import { ProductModel } from "@/types/productTypes";
 import Image from "next/image";
 import styles from "@/styles/productItem";
+import { addToCart } from "@/store/slices/cartSlice";
 
 function ProductItem({ product }: { product: ProductModel }) {
   const { id, title, price, category, image, description } = product;
+  const dispatch = useAppDispatch();
   return (
     <Box sx={styles.container}>
       <Card sx={styles.cardContainer}>
@@ -22,7 +26,7 @@ function ProductItem({ product }: { product: ProductModel }) {
           </Box>
           <Box sx={styles.buttonContainer}>
             <Button
-              onClick={() => console.log("pressed")}
+              onClick={() => dispatch(addToCart(product))}
               variant="contained"
               sx={styles.button}
             >

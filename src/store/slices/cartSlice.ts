@@ -1,4 +1,4 @@
-import { CartProductModel } from "@/types/productTypes";
+import { CartProductModel, ProductModel } from "@/types/productTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface CartState {
@@ -31,8 +31,13 @@ export const cartSlice = createSlice({
       );
       state.products[productIndex].quantity--;
     },
-    addToCart: (state, action: PayloadAction<CartProductModel>) => {
-      state.products.push(action.payload);
+    addToCart: (state, action: PayloadAction<ProductModel>) => {
+      const productIndex = state.products.findIndex(
+        (cartProduct) => cartProduct.product.id == action.payload.id
+      );
+      productIndex > -1
+        ? state.products[productIndex].quantity++
+        : state.products.push({ product: action.payload, quantity: 1 });
     },
     deleteFromCart: (state, action: PayloadAction<number>) => {
       const productIndex = state.products.findIndex(
