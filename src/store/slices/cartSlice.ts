@@ -31,6 +31,19 @@ export const cartSlice = createSlice({
       );
       state.products[productIndex].quantity--;
     },
+    updateQuantity: (state, action: PayloadAction<CartProductModel>) => {
+      const productIndex = state.products.findIndex(
+        (cartProduct) => cartProduct.product.id == action.payload.product.id
+      );
+      const prevSubtotal =
+        state.products[productIndex].quantity *
+        parseFloat(action.payload.product.price);
+      state.total -= prevSubtotal;
+      state.products[productIndex].quantity = action.payload.quantity;
+      const newSubtotal =
+        action.payload.quantity * parseFloat(action.payload.product.price);
+      state.total += newSubtotal;
+    },
     addToCart: (state, action: PayloadAction<ProductModel>) => {
       const productIndex = state.products.findIndex(
         (cartProduct) => cartProduct.product.id == action.payload.id
@@ -38,12 +51,14 @@ export const cartSlice = createSlice({
       productIndex > -1
         ? state.products[productIndex].quantity++
         : state.products.push({ product: action.payload, quantity: 1 });
+      state.total += parseFloat(action.payload.price);
     },
-    deleteFromCart: (state, action: PayloadAction<number>) => {
+    deleteFromCart: (state, action: PayloadAction<ProductModel>) => {
       const productIndex = state.products.findIndex(
-        (cartProduct) => cartProduct.product.id == action.payload
+        (cartProduct) => cartProduct.product.id == action.payload.id
       );
       state.products.splice(productIndex, 1);
+      state.total -= parseFloat(action.payload.price);
     },
     setDrawerWidth: (state, action: PayloadAction<number>) => {
       state.drawerWidth = action.payload;
@@ -61,6 +76,7 @@ export const {
   deleteFromCart,
   setDrawerWidth,
   toggleDrawer,
+  updateQuantity,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
