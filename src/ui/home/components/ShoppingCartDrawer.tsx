@@ -32,7 +32,6 @@ function ShoppingCartDrawer() {
           width: drawerWidth,
         }}
         role="presentation"
-        onKeyDown={() => dispatch(toggleDrawer())}
       >
         <Grid container>
           <Grid sx={styles.drawerContainer}>

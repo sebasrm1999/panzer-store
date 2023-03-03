@@ -26,7 +26,7 @@ function ShoppingCartList() {
           />
         ))}
       </List>
-      <Paper elevation={6} className="shopping-footer">
+      <Paper elevation={6}>
         <Grid
           container
           sx={[styles.cartFooterContainer, { width: `${drawerWidth}px` }]}

@@ -3,7 +3,7 @@ import useAppSelector from "@/hooks/useAppSelector";
 import { deleteFromCart, updateQuantity } from "@/store/slices/cartSlice";
 import styles from "@/styles/shoppingCart";
 import { CartProductModel } from "@/types/productTypes";
-import { Delete, ArrowDropDown } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 import {
   Box,
   Divider,
@@ -17,9 +17,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { fontSize } from "@mui/system";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 interface IShoppingCartListItem {
   cartProduct: CartProductModel;
@@ -41,6 +40,13 @@ function ShoppingCartListItem(props: IShoppingCartListItem) {
   const { cartProduct } = props;
   const { drawerWidth } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+  const quantityRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (quantityRef.current) {
+      quantityRef.current.value = cartProduct.quantity.toString();
+    }
+  }, [cartProduct.quantity]);
   return (
     <Box sx={{ width: `${drawerWidth}px` }}>
       <ListItem>
@@ -68,16 +74,27 @@ function ShoppingCartListItem(props: IShoppingCartListItem) {
                       })
                     )
                   }
-                  sx={{
-                    border: "1px solid #525252",
-                    color: "#525252",
-                  }}
+                  sx={styles.quantitySelect}
                 >
                   {quantityDropdownItems()}
                 </Select>
               </FormControl>
             ) : (
-              <TextField label="Quantity" variant="outlined" />
+              <TextField
+                ref={quantityRef}
+                defaultValue={10}
+                type="number"
+                onBlur={(event) =>
+                  dispatch(
+                    updateQuantity({
+                      product: cartProduct.product,
+                      quantity: parseInt(event.target.value),
+                    })
+                  )
+                }
+                label="Quantity"
+                variant="outlined"
+              />
             )}
             <ListItemText
               disableTypography

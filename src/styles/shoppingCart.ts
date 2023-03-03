@@ -1,8 +1,8 @@
 import { SxProps } from "@mui/material";
 
 const cartList: SxProps = {
-  pb: 200,
-  pt: 100,
+  pt: "100px",
+  mb: "100px",
   backgroundColor: "#fff",
   color: "#525252",
 };
@@ -37,6 +37,9 @@ const cartFooterContainer: SxProps = {
   flexDirection: "column",
   backgroundColor: "#fff",
   color: "#525252",
+  position: "fixed",
+  bottom: 0,
+  right: 0,
 };
 
 const totalContainer: SxProps = {
@@ -65,7 +68,7 @@ const checkoutButton: SxProps = {
   fontWeight: "bold",
   mb: 2,
   "&:hover": {
-    bgcolor: "#d6627e",
+    bgcolor: "#AFE1AF",
   },
 };
 
@@ -102,6 +105,11 @@ const title: SxProps = {
   ml: "25px",
 };
 
+const quantitySelect: SxProps = {
+  border: "1px solid #525252",
+  color: "#525252",
+};
+
 const styles = {
   cartList,
   cartListItem,
@@ -117,6 +125,7 @@ const styles = {
   drawerContainer,
   closeButton,
   title,
+  quantitySelect,
 };
 
 export default styles;
