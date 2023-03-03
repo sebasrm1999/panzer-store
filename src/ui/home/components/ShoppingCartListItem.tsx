@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface IShoppingCartListItem {
   cartProduct: CartProductModel;
@@ -40,11 +40,11 @@ function ShoppingCartListItem(props: IShoppingCartListItem) {
   const { cartProduct } = props;
   const { drawerWidth } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
-  const quantityRef = useRef<HTMLInputElement>(null);
+  const [quantityText, setQuantityText] = useState<string>("10");
 
   useEffect(() => {
-    if (quantityRef.current) {
-      quantityRef.current.value = cartProduct.quantity.toString();
+    if (cartProduct.quantity > 9) {
+      setQuantityText(cartProduct.quantity.toString());
     }
   }, [cartProduct.quantity]);
   return (
@@ -81,8 +81,7 @@ function ShoppingCartListItem(props: IShoppingCartListItem) {
               </FormControl>
             ) : (
               <TextField
-                ref={quantityRef}
-                defaultValue={10}
+                value={quantityText}
                 type="number"
                 onBlur={(event) =>
                   dispatch(
@@ -92,6 +91,7 @@ function ShoppingCartListItem(props: IShoppingCartListItem) {
                     })
                   )
                 }
+                onChange={(event) => setQuantityText(event.target.value)}
                 label="Quantity"
                 variant="outlined"
               />
