@@ -7,10 +7,19 @@ export const productApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3333/products/" }),
   tagTypes: ["Products"],
   endpoints: (builder) => ({
-    getAllProducts: builder.query<ProductModel[], void>({
-      query: () => "all",
-      providesTags: [{ type: "Products", id: "LIST" }],
-    }),
+    getAllProducts: builder.query<ProductModel[], { sort: string | undefined }>(
+      {
+        query: (arg) => {
+          const { sort } = arg;
+          console.log("arg: ", arg);
+          return {
+            url: "all",
+            params: { sort },
+          };
+        },
+        providesTags: [{ type: "Products", id: "LIST" }],
+      }
+    ),
   }),
 });
 

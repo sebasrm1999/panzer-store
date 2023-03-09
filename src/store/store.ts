@@ -2,10 +2,12 @@ import { productApi } from "@/pages/api/products";
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import cartReducer from "./slices/cartSlice";
+import homeReducer from "./slices/homeSlice";
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
+    home: homeReducer,
     [productApi.reducerPath]: productApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,

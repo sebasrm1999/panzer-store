@@ -1,23 +1,19 @@
 import Head from "next/head";
-import { Inter } from "@next/font/google";
 import styles from "@/styles/home";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import React from "react";
 import { ProductModel } from "@/types/productTypes";
 import ProductItem from "@/ui/home/components/ProductItem";
 import { useGetAllProductsQuery } from "./api/products";
 import Header from "@/ui/home/components/Header";
+import SortingPanel from "@/ui/home/components/SortingPanel";
+import useAppSelector from "@/hooks/useAppSelector";
 
 function Home() {
-  const { data: products, isLoading } = useGetAllProductsQuery();
+  const { sortBy } = useAppSelector((state) => state.home);
+  const { data: products, isLoading } = useGetAllProductsQuery({
+    sort: sortBy,
+  });
   return (
     <Box
       sx={{
@@ -30,56 +26,7 @@ function Home() {
         <meta property="og:title" content="Panzer Store" key="title" />
       </Head>
       <Header />
-      <Box className="filters">
-        <FormControl sx={{ width: ["100%", "300px"], mr: 5 }}>
-          <InputLabel id="categories-label">Categories</InputLabel>
-          <Select
-          /*
-                IconComponent={() => (
-                    <ArrowDropDownIcon sx={{color: selectedTheme.colors.text}} />
-                )}
-                labelId="categories-label"
-                id="categories-select"
-                value={categories}
-                label="Categories"
-                onChange={handleCategories}
-                sx={{fontFamily: selectedTheme.font, 
-                    border: `${selectedTheme.name === "Dark" ? `1px solid ${selectedTheme.colors.text}` : '0px'}`, 
-                    color: selectedTheme.colors.text}}
-                    */
-          >
-            <MenuItem value={"treasure_hunt"}>Treasure Hunts</MenuItem>
-            <MenuItem value={"guided_tour"}>Guided Tours</MenuItem>
-            <MenuItem value={"food_experience"}>Food Experiences</MenuItem>
-            <MenuItem value={"date_night"}>Date Night</MenuItem>
-            <MenuItem value={"drink_tour"}>Drink Experiences</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl sx={{ width: ["100%", "300px"], mr: 5, mt: [1, 0] }}>
-          <InputLabel id="sort-label">Sort By</InputLabel>
-          <Select
-          /*
-                IconComponent={() => (
-                    <ArrowDropDownIcon sx={{color: selectedTheme.colors.text}} />
-                )}
-                labelId="sort-label"
-                id="sort-select"
-                value={sort}
-                label="Sort By"
-                onChange={handleSort}
-                sx={{fontFamily: selectedTheme.font, 
-                    border: `${selectedTheme.name === "Dark" ? `1px solid ${selectedTheme.colors.text}` : '0px'}`, 
-                    color: selectedTheme.colors.text}}
-                    */
-          >
-            <MenuItem value="price">Price</MenuItem>
-            <MenuItem value="duration">Duration</MenuItem>
-            <MenuItem value="guide">Whoa!Guide</MenuItem>
-            <MenuItem value="rating">Rating</MenuItem>
-          </Select>
-        </FormControl>
-        <Button sx={{ mt: [1, 0] }}>Clear filters</Button>
-      </Box>
+      <SortingPanel />
       {!isLoading ? (
         <Box sx={styles.experiencesContainer}>
           {products!.map((product: ProductModel) => (
