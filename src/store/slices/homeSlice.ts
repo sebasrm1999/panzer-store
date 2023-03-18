@@ -1,18 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface HomeState {
-  sortBy: string | undefined;
+  sortBy: string;
 }
 
 const initialState: HomeState = {
-  sortBy: undefined,
+  sortBy: "",
 };
 
 export const homeSlice = createSlice({
   name: "home",
   initialState,
   reducers: {
-    setSortBy: (state, action: PayloadAction<string | undefined>) => {
+    setSortBy: (state, action: PayloadAction<string>) => {
       state.sortBy = action.payload;
     },
   },
