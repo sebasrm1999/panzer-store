@@ -8,6 +8,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import React from "react";
 import ShoppingCartListItem from "./ShoppingCartListItem";
 
@@ -50,9 +51,9 @@ function ShoppingCartList() {
             />
           </Grid>
           <Grid sx={styles.checkoutButtonContainer}>
-            <Button sx={styles.checkoutButton} onClick={() => {}}>
-              Checkout
-            </Button>
+            <Link href="payment" style={{ textDecoration: "none" }}>
+              <Button sx={styles.checkoutButton}>Checkout</Button>
+            </Link>
           </Grid>
         </Grid>
       </Paper>
