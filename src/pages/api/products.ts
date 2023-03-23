@@ -11,7 +11,6 @@ export const productApi = createApi({
       {
         query: (arg) => {
           const { sort } = arg;
-          console.log("arg: ", arg);
           return {
             url: "all",
             params: { sort },
