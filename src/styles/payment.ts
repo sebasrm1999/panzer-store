@@ -8,8 +8,8 @@ const backButton: SxProps = {
 const cardStyle = {
   style: {
     base: {
-      color: "white",
-      fontSize: "16px",
+      color: "black",
+      fontSize: "14px",
       fontSmoothing: "antialiased",
       "::placeholder": {
         color: "#c4c1d0",
