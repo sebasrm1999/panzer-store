@@ -17,21 +17,51 @@ interface IPersonalDataForm {
   phone: string;
 }
 
+interface IShippingForm {
+  postalCode: string;
+  street: string;
+  number: string;
+  appartmentNumber: string;
+  references: string;
+  addressLine2: string;
+  city: string;
+  state: string;
+  country: string;
+}
+
 function Payment() {
-  const initialValues: IPersonalDataForm = {
+  const initialValuesPersonal: IPersonalDataForm = {
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
   };
 
-  const onSubmit = (values: IPersonalDataForm) => {
+  const initialValuesShipping: IShippingForm = {
+    postalCode: "",
+    street: "",
+    number: "",
+    appartmentNumber: "",
+    references: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    country: "",
+  };
+
+  const onSubmitPersonal = (values: IPersonalDataForm) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+    }, 500);
+  };
+
+  const onSubmitShipping = (values: IShippingForm) => {
     setTimeout(() => {
       alert(JSON.stringify(values, null, 2));
     }, 500);
   };
   return (
-    <Box sx={{ backgroundColor: "#f4f2f2", margin: "-8px" }}>
+    <Box sx={{ backgroundColor: "#f4f2f2", margin: "-8px", mb: "-32px" }}>
       <Head>
         <title>Payment</title>
         <meta property="og:title" content="Panzer Store" key="title" />
@@ -102,8 +132,8 @@ function Payment() {
               realization.
             </Typography>
             <Formik
-              initialValues={initialValues}
-              onSubmit={onSubmit}
+              initialValues={initialValuesPersonal}
+              onSubmit={onSubmitPersonal}
               validationSchema={Yup.object().shape({
                 email: Yup.string().email().required("Enter valid email"),
                 firstName: Yup.string().required("Please enter first name"),
@@ -266,6 +296,231 @@ function Payment() {
               >
                 Shipping
               </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                px: 5,
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "50%",
+                    borderEndEndRadius: 0,
+                    borderStartEndRadius: 0,
+                    bgcolor: "#097969",
+                    color: "white",
+                    boxShadow: 5,
+                    textTransform: "none",
+                    fontSize: "20px",
+                    lineHeight: "25px",
+                    fontWeight: "bold",
+                    "&:hover": {
+                      bgcolor: "#AFE1AF",
+                    },
+                  }}
+                >
+                  <Typography sx={{ width: "50%" }}>Loader</Typography>
+                  <Typography sx={{ width: "50%", textAlign: "left" }}>
+                    Send
+                  </Typography>
+                </Button>
+                <Button
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "50%",
+                    borderEndStartRadius: 0,
+                    borderStartStartRadius: 0,
+                    border: 1,
+                    borderColor: "#097969",
+                    bgcolor: "#fff",
+                    color: "#000",
+                    boxShadow: 5,
+                    textTransform: "none",
+                    fontSize: "20px",
+                    lineHeight: "25px",
+                    fontWeight: "bold",
+                    "&:hover": {
+                      bgcolor: "#f4f2f2",
+                    },
+                  }}
+                >
+                  <Typography sx={{ width: "50%" }}>Loader</Typography>
+                  <Typography sx={{ width: "50%", textAlign: "left" }}>
+                    Send
+                  </Typography>
+                </Button>
+              </Box>
+              <Formik
+                initialValues={initialValuesShipping}
+                onSubmit={onSubmitShipping}
+                validationSchema={Yup.object().shape({
+                  email: Yup.string().email().required("Enter valid email"),
+                  firstName: Yup.string().required("Please enter first name"),
+                  lastName: Yup.string().required("Please enter last name"),
+                  phone: Yup.string()
+                    .matches(phoneRegExp, "Phone number is not valid")
+                    .required("Please enter a phone number"),
+                })}
+              >
+                {(props: FormikProps<IShippingForm>) => {
+                  const {
+                    values,
+                    touched,
+                    errors,
+                    handleBlur,
+                    handleChange,
+                    isSubmitting,
+                  } = props;
+                  return (
+                    <Form>
+                      <TextField
+                        sx={{ width: "100%", my: 3 }}
+                        name="postalCode"
+                        id="postalCode"
+                        label="Postal / ZIP Code"
+                        value={values.postalCode}
+                        type="text"
+                        helperText={
+                          errors.postalCode &&
+                          touched.postalCode &&
+                          errors.postalCode
+                        }
+                        error={
+                          errors.postalCode && touched.postalCode ? true : false
+                        }
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      <Box>
+                        <TextField
+                          sx={{ width: "100%", mb: 2 }}
+                          name="street"
+                          id="street"
+                          label="Street"
+                          value={values.street}
+                          type="text"
+                          helperText={
+                            errors.street && touched.street && errors.street
+                          }
+                          error={errors.street && touched.street ? true : false}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            width: "100%",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <TextField
+                            sx={{ width: "49%", mb: 2 }}
+                            name="number"
+                            id="number"
+                            label="Street Number"
+                            value={values.number}
+                            type="text"
+                            helperText={
+                              errors.number && touched.number && errors.number
+                            }
+                            error={
+                              errors.number && touched.number ? true : false
+                            }
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          <TextField
+                            sx={{ width: "49%", mb: 2 }}
+                            name="appartmentNumber"
+                            id="appartmentNumber"
+                            label="Appartment Number"
+                            value={values.appartmentNumber}
+                            type="text"
+                            helperText={
+                              errors.appartmentNumber &&
+                              touched.appartmentNumber &&
+                              errors.appartmentNumber
+                            }
+                            error={
+                              errors.appartmentNumber &&
+                              touched.appartmentNumber
+                                ? true
+                                : false
+                            }
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                        </Box>
+                        <TextField
+                          sx={{ width: "100%", mb: 2 }}
+                          name="addressLine2"
+                          id="addressLine2"
+                          label="Address Line 2"
+                          value={values.addressLine2}
+                          type="text"
+                          helperText={
+                            errors.addressLine2 &&
+                            touched.addressLine2 &&
+                            errors.addressLine2
+                          }
+                          error={
+                            errors.addressLine2 && touched.addressLine2
+                              ? true
+                              : false
+                          }
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            padding: "10px",
+                          }}
+                        >
+                          <Button
+                            type="submit"
+                            sx={{
+                              borderRadius: "20px",
+                              bgcolor: "#097969",
+                              color: "white",
+                              px: 5,
+                              py: 2,
+                              width: 250,
+                              boxShadow: "none",
+                              textTransform: "none",
+                              fontSize: "20px",
+                              lineHeight: "25px",
+                              fontWeight: "bold",
+                              "&:hover": {
+                                bgcolor: "#AFE1AF",
+                              },
+                            }}
+                            disabled={isSubmitting}
+                          >
+                            Go to Shipping
+                          </Button>
+                        </Box>
+                      </Box>
+                    </Form>
+                  );
+                }}
+              </Formik>
             </Box>
           </Box>
 
