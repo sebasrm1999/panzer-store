@@ -1,11 +1,28 @@
 import styles from "@/styles/payment";
 import { ArrowBack } from "@mui/icons-material";
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
 import { CardElement } from "@stripe/react-stripe-js";
 import { Formik, Form, FormikProps } from "formik";
 import * as Yup from "yup";
+import {
+  Country,
+  State,
+  City,
+  ICountry,
+  IState,
+  ICity,
+} from "country-state-city";
+import { useEffect } from "react";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -46,7 +63,7 @@ function Payment() {
     addressLine2: "",
     city: "",
     state: "",
-    country: "",
+    country: "MX",
   };
 
   const onSubmitPersonal = (values: IPersonalDataForm) => {
@@ -404,6 +421,69 @@ function Payment() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          width: "100%",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <TextField
+                          sx={{ width: "49%", mb: 2 }}
+                          variant="outlined"
+                          name="country"
+                          id="country"
+                          select
+                          label="Country"
+                          value={values.country}
+                          onChange={handleChange}
+                          helperText={
+                            errors.country && touched.country && errors.country
+                          }
+                          error={
+                            errors.country && touched.country ? true : false
+                          }
+                        >
+                          {Country.getAllCountries().map(
+                            (country: ICountry) => (
+                              <MenuItem
+                                key={country.isoCode}
+                                value={country.isoCode}
+                              >
+                                {country.name}
+                              </MenuItem>
+                            )
+                          )}
+                        </TextField>
+                        <TextField
+                          sx={{ width: "49%", mb: 2 }}
+                          variant="outlined"
+                          name="state"
+                          id="state"
+                          select
+                          label="State"
+                          value={values.state}
+                          onChange={() => {}}
+                          helperText={
+                            errors.state && touched.state && errors.state
+                          }
+                          error={errors.state && touched.state ? true : false}
+                        >
+                          {values.country &&
+                            State.getStatesOfCountry(values.country).map(
+                              (state: IState) => (
+                                <MenuItem
+                                  key={state.isoCode}
+                                  value={state.isoCode}
+                                >
+                                  {state.name}
+                                </MenuItem>
+                              )
+                            )}
+                        </TextField>
+                      </Box>
+
                       <Box>
                         <TextField
                           sx={{ width: "100%", mb: 2 }}
