@@ -5,7 +5,6 @@ import {
   Button,
   IconButton,
   MenuItem,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -22,7 +21,6 @@ import {
   IState,
   ICity,
 } from "country-state-city";
-import { useEffect } from "react";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -62,7 +60,7 @@ function Payment() {
     references: "",
     addressLine2: "",
     city: "",
-    state: "",
+    state: "AGU",
     country: "MX",
   };
 
@@ -403,88 +401,115 @@ function Payment() {
                   } = props;
                   return (
                     <Form>
-                      <TextField
-                        sx={{ width: "100%", my: 3 }}
-                        name="postalCode"
-                        id="postalCode"
-                        label="Postal / ZIP Code"
-                        value={values.postalCode}
-                        type="text"
-                        helperText={
-                          errors.postalCode &&
-                          touched.postalCode &&
-                          errors.postalCode
-                        }
-                        error={
-                          errors.postalCode && touched.postalCode ? true : false
-                        }
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          width: "100%",
-                          justifyContent: "space-between",
-                        }}
-                      >
+                      <Box>
                         <TextField
-                          sx={{ width: "49%", mb: 2 }}
-                          variant="outlined"
-                          name="country"
-                          id="country"
-                          select
-                          label="Country"
-                          value={values.country}
-                          onChange={handleChange}
+                          sx={{ width: "100%", my: 3 }}
+                          name="postalCode"
+                          id="postalCode"
+                          label="Postal / ZIP Code"
+                          value={values.postalCode}
+                          type="text"
                           helperText={
-                            errors.country && touched.country && errors.country
+                            errors.postalCode &&
+                            touched.postalCode &&
+                            errors.postalCode
                           }
                           error={
-                            errors.country && touched.country ? true : false
+                            errors.postalCode && touched.postalCode
+                              ? true
+                              : false
                           }
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            width: "100%",
+                            justifyContent: "space-between",
+                          }}
                         >
-                          {Country.getAllCountries().map(
-                            (country: ICountry) => (
-                              <MenuItem
-                                key={country.isoCode}
-                                value={country.isoCode}
-                              >
-                                {country.name}
-                              </MenuItem>
-                            )
-                          )}
-                        </TextField>
-                        <TextField
-                          sx={{ width: "49%", mb: 2 }}
-                          variant="outlined"
-                          name="state"
-                          id="state"
-                          select
-                          label="State"
-                          value={values.state}
-                          onChange={() => {}}
-                          helperText={
-                            errors.state && touched.state && errors.state
-                          }
-                          error={errors.state && touched.state ? true : false}
-                        >
-                          {values.country &&
-                            State.getStatesOfCountry(values.country).map(
-                              (state: IState) => (
+                          <TextField
+                            sx={{ width: "49%", mb: 2 }}
+                            variant="outlined"
+                            name="country"
+                            id="country"
+                            select
+                            label="Country"
+                            value={values.country}
+                            onChange={handleChange}
+                            helperText={
+                              errors.country &&
+                              touched.country &&
+                              errors.country
+                            }
+                            error={
+                              errors.country && touched.country ? true : false
+                            }
+                          >
+                            {Country.getAllCountries().map(
+                              (country: ICountry) => (
                                 <MenuItem
-                                  key={state.isoCode}
-                                  value={state.isoCode}
+                                  key={country.isoCode}
+                                  value={country.isoCode}
                                 >
-                                  {state.name}
+                                  {country.name}
                                 </MenuItem>
                               )
                             )}
+                          </TextField>
+                          <TextField
+                            sx={{ width: "49%", mb: 2 }}
+                            variant="outlined"
+                            name="state"
+                            id="state"
+                            select
+                            label="State"
+                            value={values.state}
+                            onChange={handleChange}
+                            helperText={
+                              errors.state && touched.state && errors.state
+                            }
+                            error={errors.state && touched.state ? true : false}
+                          >
+                            {values.country &&
+                              State.getStatesOfCountry(values.country).map(
+                                (state: IState) => (
+                                  <MenuItem
+                                    key={state.isoCode}
+                                    value={state.isoCode}
+                                  >
+                                    {state.name}
+                                  </MenuItem>
+                                )
+                              )}
+                          </TextField>
+                        </Box>
+                        <TextField
+                          sx={{ width: "100%", mb: 2 }}
+                          variant="outlined"
+                          name="city"
+                          id="city"
+                          select
+                          label="City"
+                          value={values.city}
+                          onChange={handleChange}
+                          helperText={
+                            errors.city && touched.city && errors.city
+                          }
+                          error={errors.city && touched.city ? true : false}
+                        >
+                          {values.country &&
+                            City.getCitiesOfState(
+                              values.country,
+                              values.state
+                            ).map((city: ICity) => (
+                              <MenuItem key={city.name} value={city.name}>
+                                {city.name}
+                              </MenuItem>
+                            ))}
                         </TextField>
-                      </Box>
-
-                      <Box>
                         <TextField
                           sx={{ width: "100%", mb: 2 }}
                           name="street"
@@ -593,7 +618,7 @@ function Payment() {
                             }}
                             disabled={isSubmitting}
                           >
-                            Go to Shipping
+                            Go to Payment
                           </Button>
                         </Box>
                       </Box>
