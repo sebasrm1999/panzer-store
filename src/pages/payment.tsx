@@ -177,7 +177,7 @@ function Payment() {
                       value={values.email}
                       type="text"
                       helperText={errors.email && touched.email && errors.email}
-                      error={errors.email && touched.email ? true : false}
+                      error={!!(errors.email && touched.email)}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -201,9 +201,7 @@ function Payment() {
                           touched.firstName &&
                           errors.firstName
                         }
-                        error={
-                          errors.firstName && touched.firstName ? true : false
-                        }
+                        error={!!(errors.firstName && touched.firstName)}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
@@ -217,9 +215,7 @@ function Payment() {
                         helperText={
                           errors.lastName && touched.lastName && errors.lastName
                         }
-                        error={
-                          errors.lastName && touched.lastName ? true : false
-                        }
+                        error={!!(errors.lastName && touched.lastName)}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
@@ -232,7 +228,7 @@ function Payment() {
                       value={values.phone}
                       type="text"
                       helperText={errors.phone && touched.phone && errors.phone}
-                      error={errors.phone && touched.phone ? true : false}
+                      error={!!(errors.phone && touched.phone)}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -319,65 +315,6 @@ function Payment() {
                 px: 5,
               }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "100%",
-                  justifyContent: "center",
-                }}
-              >
-                <Button
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "50%",
-                    borderEndEndRadius: 0,
-                    borderStartEndRadius: 0,
-                    bgcolor: "#097969",
-                    color: "white",
-                    boxShadow: 5,
-                    textTransform: "none",
-                    fontSize: "20px",
-                    lineHeight: "25px",
-                    fontWeight: "bold",
-                    "&:hover": {
-                      bgcolor: "#AFE1AF",
-                    },
-                  }}
-                >
-                  <Typography sx={{ width: "50%" }}>Loader</Typography>
-                  <Typography sx={{ width: "50%", textAlign: "left" }}>
-                    Send
-                  </Typography>
-                </Button>
-                <Button
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "50%",
-                    borderEndStartRadius: 0,
-                    borderStartStartRadius: 0,
-                    border: 1,
-                    borderColor: "#097969",
-                    bgcolor: "#fff",
-                    color: "#000",
-                    boxShadow: 5,
-                    textTransform: "none",
-                    fontSize: "20px",
-                    lineHeight: "25px",
-                    fontWeight: "bold",
-                    "&:hover": {
-                      bgcolor: "#f4f2f2",
-                    },
-                  }}
-                >
-                  <Typography sx={{ width: "50%" }}>Loader</Typography>
-                  <Typography sx={{ width: "50%", textAlign: "left" }}>
-                    Send
-                  </Typography>
-                </Button>
-              </Box>
               <Formik
                 initialValues={initialValuesShipping}
                 onSubmit={onSubmitShipping}
@@ -414,11 +351,7 @@ function Payment() {
                             touched.postalCode &&
                             errors.postalCode
                           }
-                          error={
-                            errors.postalCode && touched.postalCode
-                              ? true
-                              : false
-                          }
+                          error={!!(errors.postalCode && touched.postalCode)}
                           onChange={handleChange}
                           onBlur={handleBlur}
                         />
@@ -444,9 +377,7 @@ function Payment() {
                               touched.country &&
                               errors.country
                             }
-                            error={
-                              errors.country && touched.country ? true : false
-                            }
+                            error={!!(errors.country && touched.country)}
                           >
                             {Country.getAllCountries().map(
                               (country: ICountry) => (
@@ -471,7 +402,7 @@ function Payment() {
                             helperText={
                               errors.state && touched.state && errors.state
                             }
-                            error={errors.state && touched.state ? true : false}
+                            error={!!(errors.state && touched.state)}
                           >
                             {values.country &&
                               State.getStatesOfCountry(values.country).map(
@@ -498,7 +429,7 @@ function Payment() {
                           helperText={
                             errors.city && touched.city && errors.city
                           }
-                          error={errors.city && touched.city ? true : false}
+                          error={!!(errors.city && touched.city)}
                         >
                           {values.country &&
                             City.getCitiesOfState(
@@ -520,7 +451,7 @@ function Payment() {
                           helperText={
                             errors.street && touched.street && errors.street
                           }
-                          error={errors.street && touched.street ? true : false}
+                          error={!!(errors.street && touched.street)}
                           onChange={handleChange}
                           onBlur={handleBlur}
                         />
@@ -542,9 +473,7 @@ function Payment() {
                             helperText={
                               errors.number && touched.number && errors.number
                             }
-                            error={
-                              errors.number && touched.number ? true : false
-                            }
+                            error={!!(errors.number && touched.number)}
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
@@ -561,10 +490,10 @@ function Payment() {
                               errors.appartmentNumber
                             }
                             error={
-                              errors.appartmentNumber &&
-                              touched.appartmentNumber
-                                ? true
-                                : false
+                              !!(
+                                errors.appartmentNumber &&
+                                touched.appartmentNumber
+                              )
                             }
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -583,9 +512,7 @@ function Payment() {
                             errors.addressLine2
                           }
                           error={
-                            errors.addressLine2 && touched.addressLine2
-                              ? true
-                              : false
+                            !!(errors.addressLine2 && touched.addressLine2)
                           }
                           onChange={handleChange}
                           onBlur={handleBlur}
