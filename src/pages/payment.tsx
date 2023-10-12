@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
-import { CardElement } from "@stripe/react-stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { Formik, Form, FormikProps } from "formik";
 import * as Yup from "yup";
 import {
@@ -75,6 +75,19 @@ function Payment() {
       alert(JSON.stringify(values, null, 2));
     }, 500);
   };
+
+  const stripe = useStripe();
+  const elements = useElements();
+
+  async function handleSubmitPayment(e: React.FormEvent) {
+    e.preventDefault();
+
+    /*  const { error, paymentMethod } = await stripe?.createPaymentMethod({
+      type: "card",
+      card: elements?.getElement(CardElement),
+    }); */
+  }
+
   return (
     <Box sx={{ backgroundColor: "#f4f2f2", margin: "-8px", mb: "-32px" }}>
       <Head>
@@ -595,6 +608,13 @@ function Payment() {
                 Payment
               </Typography>
             </Box>
+            <TextField
+              sx={{ width: "100%", mb: 2 }}
+              name="name"
+              id="name"
+              label="Name"
+              type="text"
+            />
             <CardElement id="card-element" options={styles.cardStyle} />
           </Box>
         </Box>
