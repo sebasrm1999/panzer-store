@@ -9,7 +9,7 @@ const cardStyle = {
   style: {
     base: {
       color: "black",
-      fontSize: "14px",
+      fontSize: "16px",
       fontSmoothing: "antialiased",
       "::placeholder": {
         color: "#c4c1d0",

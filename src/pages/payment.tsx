@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "@/styles/payment";
 import { ArrowBack } from "@mui/icons-material";
 import {
@@ -64,6 +65,8 @@ function Payment() {
     country: "MX",
   };
 
+  const [isHovering, setIsHovering] = React.useState<boolean>(false);
+
   const onSubmitPersonal = (values: IPersonalDataForm) => {
     setTimeout(() => {
       alert(JSON.stringify(values, null, 2));
@@ -82,10 +85,14 @@ function Payment() {
   async function handleSubmitPayment(e: React.FormEvent) {
     e.preventDefault();
 
-    /*  const { error, paymentMethod } = await stripe?.createPaymentMethod({
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements?.getElement(CardElement),
-    }); */
+    });
+
+    if (!error) {
+      console.log(paymentMethod);
+    }
   }
 
   return (
@@ -568,7 +575,6 @@ function Payment() {
               </Formik>
             </Box>
           </Box>
-
           <Box
             sx={{
               backgroundColor: "#fff",
@@ -609,13 +615,59 @@ function Payment() {
               </Typography>
             </Box>
             <TextField
-              sx={{ width: "100%", mb: 2 }}
+              sx={{
+                width: "100%",
+                mb: 2,
+              }}
               name="name"
               id="name"
               label="Name"
               type="text"
             />
-            <CardElement id="card-element" options={styles.cardStyle} />
+            <Box
+              sx={{
+                border: `1px solid ${isHovering ? "#000" : "#c4c1d0"}`,
+                borderRadius: "7px",
+                justifyContent: "center",
+                alignItems: "center",
+                mb: 2,
+              }}
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+            >
+              <CardElement id="card-element" options={styles.cardStyle} />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "10px",
+              }}
+            >
+              <Button
+                type="submit"
+                sx={{
+                  borderRadius: "20px",
+                  bgcolor: "#097969",
+                  color: "white",
+                  px: 5,
+                  py: 2,
+                  width: 250,
+                  boxShadow: "none",
+                  textTransform: "none",
+                  fontSize: "20px",
+                  lineHeight: "25px",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    bgcolor: "#AFE1AF",
+                  },
+                }}
+                onClick={handleSubmitPayment}
+              >
+                Buy
+              </Button>
+            </Box>
           </Box>
         </Box>
 
