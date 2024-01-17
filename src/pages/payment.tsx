@@ -22,6 +22,7 @@ import {
   IState,
   ICity,
 } from "country-state-city";
+import axios from "axios";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -85,13 +86,20 @@ function Payment() {
   async function handleSubmitPayment(e: React.FormEvent) {
     e.preventDefault();
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
+    const { error, paymentMethod } = await stripe!.createPaymentMethod({
       type: "card",
-      card: elements?.getElement(CardElement),
+      card: elements!.getElement(CardElement)!,
     });
 
     if (!error) {
       console.log(paymentMethod);
+      const { id } = paymentMethod;
+
+      const { data } = await axios.post("http://localhost:3001/api/checkout", {
+        id,
+        amount: 300,
+      });
+      console.log(data);
     }
   }
 
