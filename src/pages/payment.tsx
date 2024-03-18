@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "@/styles/payment";
 import { ArrowBack } from "@mui/icons-material";
 import {
   Box,
   Button,
+  CircularProgress,
   IconButton,
   MenuItem,
   TextField,
@@ -23,6 +24,7 @@ import {
   ICity,
 } from "country-state-city";
 import axios from "axios";
+import useAppSelector from "@/hooks/useAppSelector";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -66,7 +68,9 @@ function Payment() {
     country: "MX",
   };
 
-  const [isHovering, setIsHovering] = React.useState<boolean>(false);
+  const [isHovering, setIsHovering] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { total } = useAppSelector((state) => state.cart);
 
   const onSubmitPersonal = (values: IPersonalDataForm) => {
     setTimeout(() => {
@@ -90,17 +94,26 @@ function Payment() {
       type: "card",
       card: elements!.getElement(CardElement)!,
     });
+    setIsLoading(true);
 
     if (!error) {
-      console.log(paymentMethod);
       const { id } = paymentMethod;
 
-      const { data } = await axios.post("http://localhost:3001/api/checkout", {
-        id,
-        amount: 300,
-      });
-      console.log(data);
+      try {
+        const { data } = await axios.post(
+          "http://localhost:3001/api/checkout",
+          {
+            id,
+            amount: total,
+          }
+        );
+        console.log(data);
+        elements!.getElement(CardElement)!.clear();
+      } catch (error) {
+        console.log(error);
+      }
     }
+    setIsLoading(false);
   }
 
   return (
@@ -654,6 +667,7 @@ function Payment() {
               }}
             >
               <Button
+                disabled={!stripe || isLoading}
                 type="submit"
                 sx={{
                   borderRadius: "20px",
@@ -670,10 +684,14 @@ function Payment() {
                   "&:hover": {
                     bgcolor: "#AFE1AF",
                   },
+                  "&.Mui-disabled": {
+                    background: "#eaeaea",
+                    color: "#c0c0c0",
+                  },
                 }}
                 onClick={handleSubmitPayment}
               >
-                Buy
+                {isLoading ? <CircularProgress color="success" /> : "Buy"}
               </Button>
             </Box>
           </Box>
@@ -687,9 +705,21 @@ function Payment() {
               borderRadius: 3,
               boxShadow: 5,
               mb: "10px",
+              position: "sticky",
+              top: "20px",
+              bottom: "0px",
+              right: "0px",
+              left: "0px",
             }}
           >
-            <Typography>Summary</Typography>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                fontSize: 22,
+              }}
+            >
+              Summary
+            </Typography>
           </Box>
         </Box>
       </Box>
